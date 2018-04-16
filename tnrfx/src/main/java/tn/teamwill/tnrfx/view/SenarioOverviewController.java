@@ -77,6 +77,27 @@ public class SenarioOverviewController {
 			};
 		});
 		
+		
+//		firstNameColumn.setCellFactory(column -> {
+//			return new TableCell<Senario, String>() {
+//				protected void updateItem(String item, boolean empty) {
+//					super.updateItem(item, empty);
+//					if (item == null || empty) {
+//						setText(null);
+//						setStyle("");
+//					} else {
+//						if (item=="") {
+//							setTextFill(Color.CHOCOLATE);
+//							setStyle("-fx-background-color: green");
+//						} else {
+//							setTextFill(Color.BLACK);
+//							setStyle("-fx-background-color: red");
+//						}
+//					}
+//				};
+//			};
+//		});
+		
 
 	}
 
