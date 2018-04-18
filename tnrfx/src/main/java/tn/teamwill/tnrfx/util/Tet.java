@@ -52,17 +52,25 @@ public class Tet {
 
 		try {
 			driver.get("http://10.10.216.157:8888/CassiopaeFORMATION/faces/jsp/login/login.jspx");
-			boolean b = true;
-			while (b) {
+			boolean bb = true;
+			while (bb) {
 				driver.findElement(By.id("ksiopuser::content")).sendKeys("ORFI");
-				b = false;
+				bb = false;
 			}
 
 			driver.findElement(By.id("ksiopvalue::content")).sendKeys("ORFI");
 			driver.findElement(By.id("btnLogin")).click();
 			driver.findElement(By.xpath("//div[@id='modulesMenu:s_tu_abb']/div/table/tbody/tr/td[2]")).click();
 			driver.findElement(By.xpath("//tr[@id='modulesMenu:s_tu_abd']/td[2]")).click();
-			driver.switchTo().frame("__CASSIOPAE_CLIENT_AREA_FRAME_ID__::f");
+
+			boolean b = true;
+			while (b) {
+				try {
+					org.openqa.selenium.WebDriver e1=driver.switchTo().frame("__CASSIOPAE_CLIENT_AREA_FRAME_ID__::f");
+					b = false;
+				} catch (Exception e) {
+				}
+			}
 			Thread.sleep(1000);
 			driver.findElement(By.id("secId:s_0q_aao:tbTableToolbar:new::icon")).click();
 			Thread.sleep(1000);

@@ -9,7 +9,7 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.teamwill.tnrfx.view.SenarioOverviewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="tn.teamwill.tnrfx.view.SenarioOverviewController">
 	<children>
 		<SplitPane dividerPositions="0.458259325044405" layoutX="219.0" layoutY="53.0" prefHeight="872.0" prefWidth="1691.0" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="53.0">
 			<items>

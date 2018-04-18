@@ -32,8 +32,8 @@ import tn.teamwill.tnrfx.model.UITest;
 import tn.teamwill.tnrfx.model.UiTestDetails;
 
 public class Utilities {
-	static UiTestDetails uiTestDetails;
-	private static  int i;
+	static UiTestDetails uiTestDetailsRef, uiTestDetailsTest;
+	private static int i;
 
 	public static void createClassTest(Senario senario) throws IOException {
 		byte[] bytesFromFile;
@@ -55,7 +55,6 @@ public class Utilities {
 	}
 
 	public static int testApplicationUi(Senario senario) throws MalformedURLException {
-		addTestDetail("10.10.216.157", senario);
 		Interpreter interpreter = new Interpreter();
 		String code = "tn.teamwill.tnrfx.util.Utilities u=new tn.teamwill.tnrfx.util.Utilities(); u.setI(0); System.setProperty(\"webdriver.chrome.driver\", \"/home/bettaieb/Téléchargements/chromedriver\");"
 				+ "		org.openqa.selenium.chrome.ChromeOptions options = new org.openqa.selenium.chrome.ChromeOptions();"
@@ -69,23 +68,55 @@ public class Utilities {
 				+ "		org.openqa.selenium.WebDriver driver = new org.openqa.selenium.chrome.ChromeDriver(options);"
 				+ "		driver.manage().timeouts().implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS);"
 				+ "		org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, 15);  ";
+		String codeIp = "driver.get(\"http://10.10.216.157:8887/CassiopaeFORMATION/faces/jsp/login/login.jspx\");";
+		String codeIpTest = "driver.get(\"http://10.10.216.157:8888/CassiopaeFORMATION/faces/jsp/login/login.jspx\");";
+		String code4 = senario.getContent();
+		String res = code4.replaceAll("\\n", "").replaceAll("\\\\", "");
 
+		Thread thRef = new Thread(() -> {
+			try {
+				interpreter.eval(code + codeIp + res);
+				senario.setIdUsed(new SimpleBooleanProperty(true));
+				updateTestDetail("10.10.216.157", true, "REFERENCE");
+			} catch (EvalError e) {
+				e.printStackTrace();
+				updateTestDetail("10.10.216.157", false, "REFERENCE");
+			}
+		});
+
+		Thread thTest = new Thread(() -> {
+			try {
+				interpreter.eval(code + codeIpTest + res);
+				senario.setIdUsed(new SimpleBooleanProperty(true));
+				updateTestDetail("10.10.216.157", true, "TEST");
+			} catch (EvalError e) {
+				e.printStackTrace();
+				updateTestDetail("10.10.216.157", false, "TEST");
+			}
+		});
+		
 		try {
-			String code4 = senario.getContent();
-			String res = code4.replaceAll("\\n", "").replaceAll("\\\\", "");
-			System.out.println(i);
-			System.out.println(res.contains("\\n"));
-			
-			interpreter.eval(code + res);
+			addTestDetail("10.10.216.157", senario, "REFERENCE");
+			interpreter.eval(code + codeIp + res);
 			senario.setIdUsed(new SimpleBooleanProperty(true));
-			updateTestDetail("10.10.216.157", true);
-			return i;
+			updateTestDetail("10.10.216.157", true, "REFERENCE");
 		} catch (EvalError e) {
 			e.printStackTrace();
-			updateTestDetail("10.10.216.157", false);
-			return i;
+			updateTestDetail("10.10.216.157", false, "REFERENCE");
 		}
 
+		try {
+			addTestDetail("10.10.216.157", senario, "TEST");
+			interpreter.eval(code + codeIpTest + res);
+			senario.setIdUsed(new SimpleBooleanProperty(true));
+			updateTestDetail("10.10.216.157", true, "TEST");
+		} catch (EvalError e) {
+			e.printStackTrace();
+			updateTestDetail("10.10.216.157", false, "TEST");
+		}
+		// thRef.start();
+		// thTest.start();
+		return 1;
 	}
 
 	public void findResultTest(int i) {
@@ -119,11 +150,12 @@ public class Utilities {
 		return senario2s;
 	}
 
-	public static String addTestDetail(String ipAdress, Senario senario) {
+	public static String addTestDetail(String ipAdress, Senario senario, String database) {
 		String result = "fail";
 		try {
 			UiTestDetails uiTestDetails = new UiTestDetails();
 			uiTestDetails.setType("LOCAL");
+			uiTestDetails.setDatabase(database);
 			UITest uiTest = new UITest();
 			uiTest.setId(senario.getId());
 			uiTestDetails.setUiTest(uiTest);
@@ -148,7 +180,11 @@ public class Utilities {
 			InputStream in = new BufferedInputStream(conn.getInputStream());
 			result = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
 			// JSONObject jsonObject = new JSONObject(result);
-			Utilities.uiTestDetails = mapper.readValue(result, UiTestDetails.class);
+			if (database.equalsIgnoreCase("REFERENCE"))
+				Utilities.uiTestDetailsRef = mapper.readValue(result, UiTestDetails.class);
+			else
+				Utilities.uiTestDetailsTest = mapper.readValue(result, UiTestDetails.class);
+
 			in.close();
 			conn.disconnect();
 
@@ -160,8 +196,12 @@ public class Utilities {
 		return result;
 	}
 
-	public static String updateTestDetail(String ipAdress, Boolean testResult) {
-		uiTestDetails.setResult(testResult);
+	public static String updateTestDetail(String ipAdress, Boolean testResult, String database) {
+		if (database.equalsIgnoreCase("REFERENCE"))
+			uiTestDetailsRef.setResult(testResult);
+		else
+			uiTestDetailsTest.setResult(testResult);
+
 		String result = "fail";
 		try {
 
@@ -174,7 +214,11 @@ public class Utilities {
 			conn.setRequestMethod("PUT");
 
 			ObjectMapper mapper = new ObjectMapper();
-			String json = mapper.writeValueAsString(uiTestDetails);
+			String json;
+			if (database.equalsIgnoreCase("REFERENCE"))
+				json = mapper.writeValueAsString(uiTestDetailsRef);
+			else
+				json = mapper.writeValueAsString(uiTestDetailsTest);
 			OutputStreamWriter os = new OutputStreamWriter(conn.getOutputStream());
 			os.write(json);
 			os.close();

@@ -2,6 +2,9 @@ package tn.teamwill.tnrfx.view;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.function.UnaryOperator;
 
 import javafx.beans.property.BooleanProperty;
@@ -16,12 +19,30 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import tn.teamwill.tnrfx.MainApp;
 import tn.teamwill.tnrfx.model.Senario;
+import tn.teamwill.tnrfx.model.UiTestDetails;
 import tn.teamwill.tnrfx.util.Utilities;
 
 public class SenarioOverviewController {
+	@FXML
+	private TableColumn<UiTestDetails, String> UserId;
+	@FXML
+	private TableColumn<UiTestDetails, String> UserName;
+	@FXML
+	private TableColumn<UiTestDetails, String> Active;
+	@FXML
+	private TableView<UiTestDetails> uitestDetailsTableView;
+	@FXML
+	private TableColumn<UiTestDetails, Date> startDate;
+	@FXML
+	private TableColumn<UiTestDetails, Date> endDate;
+	@FXML
+	private TableColumn<UiTestDetails, Boolean> result;
+	@FXML
+	private TableColumn<UiTestDetails, String> type;
 	@FXML
 	private TableView<Senario> personTable;
 	@FXML
@@ -54,6 +75,12 @@ public class SenarioOverviewController {
 	 */
 	@FXML
 	private void initialize() throws FileNotFoundException, IOException {
+//		UserId.setCellValueFactory(new PropertyValueFactory<UiTestDetails, String>("id"));
+//		UserName.setCellValueFactory(new PropertyValueFactory<UiTestDetails, String>("name"));
+//		Active.setCellValueFactory(new PropertyValueFactory<UiTestDetails, String>("active"));
+//
+//		uitestDetailsTableView.getItems().setAll(parseUserList());
+
 		tittel.setText(Utilities.findIp());
 		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameFX());
 		lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().getIdUsed());
@@ -167,5 +194,15 @@ public class SenarioOverviewController {
 		String subsequentPartialBlock = "(\\." + partialBlock + ")";
 		String ipAddress = partialBlock + "?" + subsequentPartialBlock + "{0,3}";
 		return "^" + ipAddress;
+	}
+
+	private List<UiTestDetails> parseUserList() {
+		List<UiTestDetails> list = new ArrayList<>();
+		list.add(new UiTestDetails(true, "local"));
+		list.add(new UiTestDetails(false, "local"));
+
+		return list;
+		// parse and construct User datamodel list by looping your ResultSet rs
+		// and return the list
 	}
 }

@@ -11,10 +11,17 @@ public class UiTestDetails implements Serializable {
 	private Boolean result;
 	private String type;
 	private UITest uiTest;
+	private String database;
 	
 	private static final long serialVersionUID = 1L;
 
 	public UiTestDetails() {
+	}
+
+	public UiTestDetails(Boolean result, String type) {
+		super();
+		this.result = result;
+		this.type = type;
 	}
 
 	public Long getId() {
@@ -71,6 +78,14 @@ public class UiTestDetails implements Serializable {
 
 	public void setUiTest(UITest uiTest) {
 		this.uiTest = uiTest;
+	}
+
+	public String getDatabase() {
+		return database;
+	}
+
+	public void setDatabase(String database) {
+		this.database = database;
 	}
 
 }
