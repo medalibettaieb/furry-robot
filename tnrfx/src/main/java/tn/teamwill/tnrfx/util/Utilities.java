@@ -1,11 +1,13 @@
 package tn.teamwill.tnrfx.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,10 +26,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+import javafx.beans.property.SimpleBooleanProperty;
 import tn.teamwill.tnrfx.model.Senario;
+import tn.teamwill.tnrfx.model.UITest;
+import tn.teamwill.tnrfx.model.UiTestDetails;
 
 public class Utilities {
-	static String returnValue;
+	static UiTestDetails uiTestDetails;
+	private static  int i;
 
 	public static void createClassTest(Senario senario) throws IOException {
 		byte[] bytesFromFile;
@@ -48,179 +54,36 @@ public class Utilities {
 		return appProps.getProperty("ip1");
 	}
 
-	public static String testApplicationUi() throws MalformedURLException {
-
+	public static int testApplicationUi(Senario senario) throws MalformedURLException {
+		addTestDetail("10.10.216.157", senario);
 		Interpreter interpreter = new Interpreter();
-
-		String code = "System.setProperty(\"webdriver.chrome.driver\", \"/home/bettaieb/Téléchargements/chromedriver\");\n"
-				+ "		org.openqa.selenium.chrome.ChromeOptions options = new org.openqa.selenium.chrome.ChromeOptions();\n"
-				+ "		options.addArguments(new String[] {\"test-type\"});\n"
-				+ "		options.addArguments(new String[] {\"start-maximized\"});\n"
-				+ "		options.addArguments(new String[] {\"disable-infobars\"});\n"
-				+ "		options.addArguments(new String[] {\"--disable-extensions\"});\n"
-				+ "		options.addArguments(new String[] {\"no-sandbox\"});\n"
-				+ "		options.addArguments(new String[] {\"--enable-automation\"});\n"
-				+ "		options.addArguments(new String[] {\"test-type=browser\"});\n"
-				+ "		org.openqa.selenium.WebDriver driver = new org.openqa.selenium.chrome.ChromeDriver(options);\n"
-				+ "		driver.manage().timeouts().implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS);\n"
-				+ "		org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, 15);";
-
-		String code3 = "		try {\n"
-				+ "			driver.get(\"http://10.10.216.157:8888/CassiopaeFORMATION/faces/jsp/login/login.jspx\");\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"ksiopuser::content\")).sendKeys(new String[] {\"ORFI\"});\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"ksiopvalue::content\")).sendKeys(new String[] {\"ORFI\"});\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"btnLogin\")).click();\n"
-				+ "			driver.findElement(org.openqa.selenium.By.xpath(\"//div[@id='modulesMenu:s_tu_abb']/div/table/tbody/tr/td[2]\")).click();\n"
-				+ "			driver.findElement(org.openqa.selenium.By.xpath(\"//tr[@id='modulesMenu:s_tu_abd']/td[2]\")).click();\n"
-				+ "			driver.switchTo().frame(\"__CASSIOPAE_CLIENT_AREA_FRAME_ID__::f\");\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:s_0q_aao:tbTableToolbar:new::icon\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			new org.openqa.selenium.support.ui.Select(driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aal::content\"))).selectByVisibleText(\"Client\");\n"
-				+ "			Thread.sleep(1000);\n" + "org.openqa.selenium.WebElement element = wait\n"
-				+ "					.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aal::content\")));\n"
-				+ "			element.click();\n" + "			Thread.sleep(1000);\n"
-				+ "			wait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aau::content\")));\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			new org.openqa.selenium.support.ui.Select(driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aau::content\")))\n"
-				+ "					.selectByVisibleText(\"Personne morale\");\n" + "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aau::content\")).click();\n"
-				+ "			org.openqa.selenium.WebElement e1 = wait\n"
-				+ "					.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aad::content\")));\n"
-				+ "			e1.click();\n" + "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aad::content\")).sendKeys(new String[] {\"hedfi\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aak::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aak::content\")).sendKeys(new String[] {\"12 rue ABCD\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aag::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aaj::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aaj::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aaj::content\")).sendKeys(new String[] {\"123 123 123 12345\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.xpath(\"//tr[@id='secId:mainBody:s_zn_aba']/td\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			new org.openqa.selenium.support.ui.Select(driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aac::content\"))).selectByVisibleText(\"Monsieur\");\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aac::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aaj::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aaj::content\")).sendKeys(new String[] {\"HAIFA\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aam::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aam::content\")).sendKeys(new String[] {\"12121980\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			new org.openqa.selenium.support.ui.Select(driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aau::content\"))).selectByVisibleText(\"Marié(e)\");\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aau::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aav::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aaw::content\")).sendKeys(new String[] {\"12/12/2003\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.xpath(\"//tr[@id='secId:mainBody:s_zo_abe']/td\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zo_aap::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:tf_s_zo_aaq::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:tf_s_zo_aaq::content\")).sendKeys(new String[] {\"75009\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:tf_s_zo_aar::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:bSr_s_zn_aa5::icon\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"srcId:s_be8_aaj:innerTbl:0:cjulibelle::content\")).click();\n"
-				+ "			//driver.findElement(org.openqa.selenium.By.xpath(\"//div[@id='srcId:s_be8_aaj:innerTbl::db']/table/tbody/tr[2]/td\")).click();\n"
-				+ "			System.out.println(\"done 1\");\n" + "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"srcId:s_be8_aal\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			new org.openqa.selenium.support.ui.Select(driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_ba6::content\")))\n"
-				+ "					.selectByVisibleText(\"IS : Impots sur les Societes\");\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_ba6::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aa8::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aa8::content\")).sendKeys(new String[] {\"123456\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_aa8::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_zn_abf::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yb_aaj::disAcr\")).click();\n"
-				+ "			Thread.sleep(3000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yc_aac:tbTableToolbar:new::icon\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			new org.openqa.selenium.support.ui.Select(driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id_jsp_295101557_17pc26::content\")))\n"
-				+ "					.selectByVisibleText(\"Propriétaire\");\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id_jsp_295101557_17pc26::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id_jsp_295101557_18pc26::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id_jsp_295101557_18pc26::content\")).sendKeys(new String[] {\"2\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id_jsp_295101557_19pc26::content\")).sendKeys(new String[] {\"2000\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yd_abd::content\")).sendKeys(new String[] {\"2 rue ddd\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yd_aaz::content\")).sendKeys(new String[] {\"2\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yd_aay::content\")).sendKeys(new String[] {\"FRANCE\"});\n"
-				+ "			Thread.sleep(1000);\n" + "			System.out.println(\"done 2\");\n"
-				+ "			Thread.sleep(1000);\n" + "			try {\n"
-				+ "				driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id180::content\")).sendKeys(new String[] {\"75009\"});\n"
-				+ "			} catch (Exception e) {\n" + "				try {\n"
-				+ "					driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id175::content\")).sendKeys(new String[] {\"75009\"});\n"
-				+ "				} catch (Exception e2) {\n" + "				}\n" + "			}\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yb_aak::disAcr\")).click();\n"
-				+ "			Thread.sleep(2000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yh_aac:tbTableToolbar:new::icon\")).click();\n"
-				+ "			Thread.sleep(1000);\n" + "			System.out.println(\"done 3\");\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aag::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aag::content\")).clear();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aag::content\")).sendKeys(new String[] {\"FR7630001007941234567890185\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aaj::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			new org.openqa.selenium.support.ui.Select(driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aar::content\"))).selectByVisibleText(\"Autre\");\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aar::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aax::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aax::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:s_yj_aax::content\")).sendKeys(new String[] {\"02/02/2020\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id_jsp_1980494421_24pc30::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id_jsp_1980494421_24pc30::content\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:mainBody:j_id_jsp_1980494421_24pc30::content\")).sendKeys(new String[] {\"02/02/2020\"});\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.xpath(\"//div[@id='secId:mainBody:s_yj_aaz']/table/tbody/tr/td[2]\")).click();\n"
-				+ "			Thread.sleep(1000);\n"
-				+ "			driver.findElement(org.openqa.selenium.By.id(\"secId:s_zl_aab:s_bey_aab::icon\")).click();\n"
-				+ "			Thread.sleep(1000);\n" + "			System.out.println(\"done 4\");\n"
-				+ "		} catch (Exception e) {\n" + "			e.printStackTrace();\n" + "		}\n";
+		String code = "tn.teamwill.tnrfx.util.Utilities u=new tn.teamwill.tnrfx.util.Utilities(); u.setI(0); System.setProperty(\"webdriver.chrome.driver\", \"/home/bettaieb/Téléchargements/chromedriver\");"
+				+ "		org.openqa.selenium.chrome.ChromeOptions options = new org.openqa.selenium.chrome.ChromeOptions();"
+				+ "		options.addArguments(new String[] {\"test-type\"});"
+				+ "		options.addArguments(new String[] {\"start-maximized\"});"
+				+ "		options.addArguments(new String[] {\"disable-infobars\"});"
+				+ "		options.addArguments(new String[] {\"--disable-extensions\"});"
+				+ "		options.addArguments(new String[] {\"no-sandbox\"});"
+				+ "		options.addArguments(new String[] {\"--enable-automation\"});"
+				+ "		options.addArguments(new String[] {\"test-type=browser\"});"
+				+ "		org.openqa.selenium.WebDriver driver = new org.openqa.selenium.chrome.ChromeDriver(options);"
+				+ "		driver.manage().timeouts().implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS);"
+				+ "		org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, 15);  ";
 
 		try {
-			interpreter.eval(code + code3);
-			return returnValue;
+			String code4 = senario.getContent();
+			String res = code4.replaceAll("\\n", "").replaceAll("\\\\", "");
+			System.out.println(i);
+			System.out.println(res.contains("\\n"));
+			
+			interpreter.eval(code + res);
+			senario.setIdUsed(new SimpleBooleanProperty(true));
+			updateTestDetail("10.10.216.157", true);
+			return i;
 		} catch (EvalError e) {
 			e.printStackTrace();
-			return returnValue;
+			updateTestDetail("10.10.216.157", false);
+			return i;
 		}
 
 	}
@@ -254,5 +117,88 @@ public class Utilities {
 			e.printStackTrace();
 		}
 		return senario2s;
+	}
+
+	public static String addTestDetail(String ipAdress, Senario senario) {
+		String result = "fail";
+		try {
+			UiTestDetails uiTestDetails = new UiTestDetails();
+			uiTestDetails.setType("LOCAL");
+			UITest uiTest = new UITest();
+			uiTest.setId(senario.getId());
+			uiTestDetails.setUiTest(uiTest);
+
+			URL url = new URL("http://" + ipAdress + ":8080/tnr/webservice/uitestdetails");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(5000);
+			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			conn.setRequestMethod("POST");
+
+			ObjectMapper mapper = new ObjectMapper();
+			String json = mapper.writeValueAsString(uiTestDetails);
+			System.out.println(json);
+			OutputStreamWriter os = new OutputStreamWriter(conn.getOutputStream());
+			os.write(json);
+			os.close();
+
+			// read the response
+			InputStream in = new BufferedInputStream(conn.getInputStream());
+			result = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
+			// JSONObject jsonObject = new JSONObject(result);
+			Utilities.uiTestDetails = mapper.readValue(result, UiTestDetails.class);
+			in.close();
+			conn.disconnect();
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public static String updateTestDetail(String ipAdress, Boolean testResult) {
+		uiTestDetails.setResult(testResult);
+		String result = "fail";
+		try {
+
+			URL url = new URL("http://" + ipAdress + ":8080/tnr/webservice/uitestdetails");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(5000);
+			conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			conn.setRequestMethod("PUT");
+
+			ObjectMapper mapper = new ObjectMapper();
+			String json = mapper.writeValueAsString(uiTestDetails);
+			OutputStreamWriter os = new OutputStreamWriter(conn.getOutputStream());
+			os.write(json);
+			os.close();
+
+			// read the response
+			InputStream in = new BufferedInputStream(conn.getInputStream());
+			result = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
+
+			in.close();
+			conn.disconnect();
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
 	}
 }

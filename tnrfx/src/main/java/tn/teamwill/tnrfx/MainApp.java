@@ -55,7 +55,8 @@ public class MainApp extends Application {
 			String fxmlFile = "/fxml/SenarioOverview.fxml";
 			FXMLLoader loader = new FXMLLoader();
 			Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
-			Scene scene = new Scene(rootNode, 900, 400);
+			Scene scene = new Scene(rootNode, 2000, 1300);
+			
 			scene.getStylesheets().add("/styles/styles.css");
 			SenarioOverviewController controller = loader.getController();
 			controller.setMainApp(this);

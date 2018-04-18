@@ -10,7 +10,7 @@ public class Senario {
 	private StringProperty contentName;
 	private BooleanProperty idUsed = new SimpleBooleanProperty();
 
-	private String id;
+	private Long id;
 	private String uuid;
 	private String content;
 	private String name;
@@ -54,11 +54,11 @@ public class Senario {
 		this.idUsed = idUsed;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

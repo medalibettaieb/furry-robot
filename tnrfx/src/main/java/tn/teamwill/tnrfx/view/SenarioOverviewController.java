@@ -76,28 +76,26 @@ public class SenarioOverviewController {
 				};
 			};
 		});
-		
-		
-//		firstNameColumn.setCellFactory(column -> {
-//			return new TableCell<Senario, String>() {
-//				protected void updateItem(String item, boolean empty) {
-//					super.updateItem(item, empty);
-//					if (item == null || empty) {
-//						setText(null);
-//						setStyle("");
-//					} else {
-//						if (item=="") {
-//							setTextFill(Color.CHOCOLATE);
-//							setStyle("-fx-background-color: green");
-//						} else {
-//							setTextFill(Color.BLACK);
-//							setStyle("-fx-background-color: red");
-//						}
-//					}
-//				};
-//			};
-//		});
-		
+
+		// firstNameColumn.setCellFactory(column -> {
+		// return new TableCell<Senario, String>() {
+		// protected void updateItem(String item, boolean empty) {
+		// super.updateItem(item, empty);
+		// if (item == null || empty) {
+		// setText(null);
+		// setStyle("");
+		// } else {
+		// if (item=="") {
+		// setTextFill(Color.CHOCOLATE);
+		// setStyle("-fx-background-color: green");
+		// } else {
+		// setTextFill(Color.BLACK);
+		// setStyle("-fx-background-color: red");
+		// }
+		// }
+		// };
+		// };
+		// });
 
 	}
 
@@ -116,7 +114,7 @@ public class SenarioOverviewController {
 	 * 
 	 * @throws IOException
 	 * @throws FileNotFoundException
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	@FXML
 	private void handleLanchTest() throws FileNotFoundException, IOException, InterruptedException {
@@ -136,14 +134,14 @@ public class SenarioOverviewController {
 			int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
 			if (selectedIndex >= 0) {
 				initialize();
-			
+
 				//
 				Utilities.createClassTest(senario);
 				Thread.sleep(2000);
-				
-				String string=Utilities.testApplicationUi();
-				
-				
+
+				int i = Utilities.testApplicationUi(senario);
+				initialize();
+
 			} else {
 				// Nothing selected senario.
 				Alert alert = new Alert(AlertType.WARNING);
