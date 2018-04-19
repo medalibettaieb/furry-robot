@@ -54,9 +54,15 @@ public class Utilities {
 		return appProps.getProperty("ip1");
 	}
 
-	public static int testApplicationUi(Senario senario) throws MalformedURLException {
+	public static int testApplicationUi(Senario senario) throws FileNotFoundException, IOException {
 		Interpreter interpreter = new Interpreter();
-		String code = "tn.teamwill.tnrfx.util.Utilities u=new tn.teamwill.tnrfx.util.Utilities(); u.setI(0); System.setProperty(\"webdriver.chrome.driver\", \"/home/bettaieb/Téléchargements/chromedriver\");"
+		 String init = "org.openqa.selenium.remote.DesiredCapabilities capability = org.openqa.selenium.remote.DesiredCapabilities.chrome();"
+	                + "    org.openqa.selenium.WebDriver driver = new org.openqa.selenium.remote.RemoteWebDriver(new java.net.URL(\"http://"
+	                + Utilities.findIp() + ":4444/wd/hub\"), capability);"
+	                + "    driver.manage().timeouts().implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS);"
+	                + "    org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, 15);  ";
+
+		String code = "tn.teamwill.tnrfx.util.Utilities u=new tn.teamwill.tnrfx.util.Utilities(); u.setI(0); System.setProperty(\"webdriver.chrome.driver\", \"chromedriver\");"
 				+ "		org.openqa.selenium.chrome.ChromeOptions options = new org.openqa.selenium.chrome.ChromeOptions();"
 				+ "		options.addArguments(new String[] {\"test-type\"});"
 				+ "		options.addArguments(new String[] {\"start-maximized\"});"
@@ -94,7 +100,7 @@ public class Utilities {
 				updateTestDetail("10.10.216.157", false, "TEST");
 			}
 		});
-		
+
 		try {
 			addTestDetail("10.10.216.157", senario, "REFERENCE");
 			interpreter.eval(code + codeIp + res);
@@ -148,6 +154,33 @@ public class Utilities {
 			e.printStackTrace();
 		}
 		return senario2s;
+	}
+
+	public static List<UiTestDetails> fromJSONtoUiTestDetails(String ipAdress, String uuidUiTest) {
+		List<UiTestDetails> uiTestDetails = null;
+		try {
+			URL url = new URL("http://" + ipAdress + ":8080/tnr/webservice/uitestdetails/" + uuidUiTest);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+			}
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+			String output;
+			while ((output = br.readLine()) != null) {
+				output.replace("[", "");
+				ObjectMapper mapper = new ObjectMapper();
+				uiTestDetails = mapper.readValue(output, new TypeReference<List<UiTestDetails>>() {
+				});
+			}
+			conn.disconnect();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return uiTestDetails;
 	}
 
 	public static String addTestDetail(String ipAdress, Senario senario, String database) {

@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import tn.teamwill.tnrfx.model.Senario;
+import tn.teamwill.tnrfx.model.UiTestDetails;
 import tn.teamwill.tnrfx.util.Utilities;
 import tn.teamwill.tnrfx.view.SenarioOverviewController;
 
@@ -24,6 +25,7 @@ public class MainApp extends Application {
 	 * The data as an observable list of Persons.
 	 */
 	private ObservableList<Senario> senarioData = FXCollections.observableArrayList();
+	private ObservableList<UiTestDetails> uiTestDetailsData = FXCollections.observableArrayList();
 
 	/**
 	 * Constructor
@@ -32,12 +34,13 @@ public class MainApp extends Application {
 	 * @throws FileNotFoundException
 	 */
 	public MainApp() throws FileNotFoundException, IOException {
+		
 		List<Senario> list = Utilities.fromJSONtoSenario(Utilities.findIp());
 		for (Senario s : list) {
 			s.setNameFX(new SimpleStringProperty(s.getName()));
 			senarioData.add(s);
 		}
-		
+		senarioData.add(new Senario("add facture", ""));
 	}
 
 	@Override
@@ -98,5 +101,13 @@ public class MainApp extends Application {
 
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+	}
+
+	public ObservableList<UiTestDetails> getUiTestDetailsData() {
+		return uiTestDetailsData;
+	}
+
+	public void setUiTestDetailsData(ObservableList<UiTestDetails> uiTestDetailsData) {
+		this.uiTestDetailsData = uiTestDetailsData;
 	}
 }
