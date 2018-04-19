@@ -6,45 +6,37 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="tn.teamwill.tnrfx.view.SenarioOverviewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.teamwill.tnrfx.view.SenarioOverviewController">
 	<children>
 		<SplitPane dividerPositions="0.458259325044405" layoutX="219.0" layoutY="53.0" prefHeight="872.0" prefWidth="1691.0" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="53.0">
 			<items>
 				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1525.0" prefWidth="598.0">
 					<children>
-						<TableView fx:id="personTable" layoutX="-12.0" layoutY="73.0" prefHeight="578.0" prefWidth="1066.0" AnchorPane.bottomAnchor="219.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="73.0">
+						<TableView fx:id="personTable" editable="true" layoutX="-12.0" layoutY="73.0" prefHeight="578.0" prefWidth="1066.0" AnchorPane.bottomAnchor="219.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="73.0">
 							<columns>
-                        <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="senario name" />
-                        <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="is used" />
+								<TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="senario name" />
+								<TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="is used" />
 							</columns>
 							<columnResizePolicy>
 								<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 							</columnResizePolicy>
 						</TableView>
-						<TextField fx:id="tittel" layoutX="110.0" layoutY="17.0" />
+						<TextField fx:id="tittel" layoutX="110.0" layoutY="17.0" style="-fx-background-color: #9AFE2E;" />
 						<Label layoutX="51.0" layoutY="24.0" text="IP@" />
-            						<Button layoutX="284.0" layoutY="682.0" mnemonicParsing="false" onAction="#handleLanchTest" prefHeight="132.0" prefWidth="171.0" text="lanch ui test">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Button>
+
+						<ImageView fitHeight="150.0" fitWidth="200.0" layoutX="289.0" layoutY="664.0" onMouseClicked="#handleLanchTest" pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="/images/b.jpeg" />
+							</image>
+						</ImageView>
+                  <Button layoutX="79.0" layoutY="726.0" mnemonicParsing="false" onAction="#handleButtonAction" text="list UiTestDetaiels" />
 					</children>
 				</AnchorPane>
-				<AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <TableView layoutX="57.0" layoutY="68.0" prefHeight="442.0" prefWidth="770.0">
-                    <columns>
-                      <TableColumn prefWidth="187.0" text="Start Date " />
-                      <TableColumn prefWidth="211.0" text="End Date" />
-                        <TableColumn prefWidth="205.0" text="Result" />
-                        <TableColumn prefWidth="168.0" text="Type" />
-                    </columns>
-                  </TableView>
-               </children>
-				</AnchorPane>
+				<AnchorPane prefHeight="200.0" prefWidth="200.0" />
 			</items>
 		</SplitPane>
 	</children>

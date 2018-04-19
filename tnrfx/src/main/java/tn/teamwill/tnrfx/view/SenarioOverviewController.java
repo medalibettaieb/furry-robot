@@ -9,7 +9,9 @@ import java.util.function.UnaryOperator;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -19,8 +21,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import tn.teamwill.tnrfx.MainApp;
 import tn.teamwill.tnrfx.model.Senario;
 import tn.teamwill.tnrfx.model.UiTestDetails;
@@ -66,6 +69,29 @@ public class SenarioOverviewController {
 	public SenarioOverviewController() {
 	}
 
+	@FXML
+	private void handleButtonAction(ActionEvent event) {
+		senario = personTable.getSelectionModel().getSelectedItem(); 
+		
+		Label secondLabel = new Label("the UiTestDetails on UiTest ; "+senario.getName());
+		   
+           StackPane secondaryLayout = new StackPane();
+           secondaryLayout.getChildren().add(secondLabel);
+
+           Scene secondScene = new Scene(secondaryLayout, 230, 100);
+
+           // New window (Stage)
+           Stage newWindow = new Stage();
+           newWindow.setTitle("the UiTestDetails on UiTest ; "+senario.getName());
+           newWindow.setScene(secondScene);
+
+           // Set position of second window, related to primary window.
+           newWindow.setX(600);
+           newWindow.setY(600);
+
+           newWindow.show();
+	}
+
 	/**
 	 * Initializes the controller class. This method is automatically called after
 	 * the fxml file has been loaded.
@@ -75,11 +101,14 @@ public class SenarioOverviewController {
 	 */
 	@FXML
 	private void initialize() throws FileNotFoundException, IOException {
-//		UserId.setCellValueFactory(new PropertyValueFactory<UiTestDetails, String>("id"));
-//		UserName.setCellValueFactory(new PropertyValueFactory<UiTestDetails, String>("name"));
-//		Active.setCellValueFactory(new PropertyValueFactory<UiTestDetails, String>("active"));
-//
-//		uitestDetailsTableView.getItems().setAll(parseUserList());
+		// UserId.setCellValueFactory(new PropertyValueFactory<UiTestDetails,
+		// String>("id"));
+		// UserName.setCellValueFactory(new PropertyValueFactory<UiTestDetails,
+		// String>("name"));
+		// Active.setCellValueFactory(new PropertyValueFactory<UiTestDetails,
+		// String>("active"));
+		//
+		// uitestDetailsTableView.getItems().setAll(parseUserList());
 
 		tittel.setText(Utilities.findIp());
 		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameFX());
@@ -187,6 +216,15 @@ public class SenarioOverviewController {
 			alert.setContentText("Please add an @IP ");
 			alert.showAndWait();
 		}
+	}
+
+	@FXML
+	private void showTestUiDetails() throws FileNotFoundException, IOException, InterruptedException {
+		senario = personTable.getSelectionModel().getSelectedItem();
+		if (senario != null) {
+			System.out.println(senario.getUuid());
+		}
+
 	}
 
 	private String makePartialIPRegex() {
