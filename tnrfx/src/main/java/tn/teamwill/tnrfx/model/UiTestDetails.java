@@ -1,7 +1,12 @@
 package tn.teamwill.tnrfx.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 
 public class UiTestDetails implements Serializable {
 	private Long id;
@@ -12,7 +17,12 @@ public class UiTestDetails implements Serializable {
 	private String type;
 	private UITest uiTest;
 	private String database;
-	
+
+	private StringProperty startDateOf;
+	private StringProperty endDateOf;
+	private StringProperty typeOf;
+	private BooleanProperty resultOf;
+
 	private static final long serialVersionUID = 1L;
 
 	public UiTestDetails() {
@@ -86,6 +96,40 @@ public class UiTestDetails implements Serializable {
 
 	public void setDatabase(String database) {
 		this.database = database;
+	}
+
+
+
+	public StringProperty getStartDateOf() {
+		return startDateOf;
+	}
+
+	public void setStartDateOf(StringProperty startDateOf) {
+		this.startDateOf = startDateOf;
+	}
+
+	public StringProperty getEndDateOf() {
+		return endDateOf;
+	}
+
+	public void setEndDateOf(StringProperty endDateOf) {
+		this.endDateOf = endDateOf;
+	}
+
+	public StringProperty getTypeOf() {
+		return typeOf;
+	}
+
+	public void setTypeOf(StringProperty typeOf) {
+		this.typeOf = typeOf;
+	}
+
+	public BooleanProperty getResultOf() {
+		return resultOf;
+	}
+
+	public void setResultOf(BooleanProperty resultOf) {
+		this.resultOf = resultOf;
 	}
 
 }

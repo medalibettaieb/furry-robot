@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +26,7 @@ public class MainApp extends Application {
 	 * The data as an observable list of Persons.
 	 */
 	private ObservableList<Senario> senarioData = FXCollections.observableArrayList();
-	private ObservableList<UiTestDetails> uiTestDetailsData = FXCollections.observableArrayList();
+
 
 	/**
 	 * Constructor
@@ -34,13 +35,15 @@ public class MainApp extends Application {
 	 * @throws FileNotFoundException
 	 */
 	public MainApp() throws FileNotFoundException, IOException {
-		
 		List<Senario> list = Utilities.fromJSONtoSenario(Utilities.findIp());
 		for (Senario s : list) {
 			s.setNameFX(new SimpleStringProperty(s.getName()));
 			senarioData.add(s);
 		}
 		senarioData.add(new Senario("add facture", ""));
+		senarioData.add(new Senario("add client", ""));
+
+		
 	}
 
 	@Override
@@ -59,7 +62,7 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
 			Scene scene = new Scene(rootNode, 2000, 1300);
-			
+
 			scene.getStylesheets().add("/styles/styles.css");
 			SenarioOverviewController controller = loader.getController();
 			controller.setMainApp(this);
@@ -103,11 +106,6 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 	}
 
-	public ObservableList<UiTestDetails> getUiTestDetailsData() {
-		return uiTestDetailsData;
-	}
+	
 
-	public void setUiTestDetailsData(ObservableList<UiTestDetails> uiTestDetailsData) {
-		this.uiTestDetailsData = uiTestDetailsData;
-	}
 }
