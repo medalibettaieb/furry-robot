@@ -1,4 +1,5 @@
 package tn.teamwill.tnrfx.view;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -12,11 +13,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,7 +30,7 @@ import tn.teamwill.tnrfx.util.Utilities;
 
 public class SenariotController extends Application {
 	Image imageOk = new Image(getClass().getResourceAsStream("/images/l3.jpeg"));
-	Button button = new Button("Accept", new ImageView(imageOk));
+
 	private TableView<Senario> tableSenariot = new TableView<Senario>();
 	private TableView<UiTestDetails> tableUiTestDetails = new TableView<UiTestDetails>();
 	private final ObservableList<Senario> dataSenariot = FXCollections.observableArrayList();
@@ -39,7 +40,6 @@ public class SenariotController extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 
 	public void createTableUiTestDetailsView() throws FileNotFoundException, IOException {
 		TableColumn startdateCol = new TableColumn("start date");
@@ -86,18 +86,22 @@ public class SenariotController extends Application {
 	public void start(Stage stage) throws FileNotFoundException, IOException {
 		prepareTableSenariot();
 		createTableUiTestDetailsView();
-		Button lanch = new Button();
-		lanch.setOnAction(new EventHandler<ActionEvent>() {
+		Button button = new Button("Accept", new ImageView(imageOk));
+		button.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
+				senario = tableSenariot.getSelectionModel().getSelectedItem();
 				try {
-					System.out.println("ok");
 					Utilities.testApplicationUi(senario);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
 		Button show = new Button("Show Test Details");
@@ -105,7 +109,7 @@ public class SenariotController extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				senario = tableSenariot.getSelectionModel().getSelectedItem();
-				if (senario!=null) {
+				if (senario != null) {
 					try {
 						updateUiTestDetailsData();
 					} catch (IOException e) {
@@ -123,7 +127,7 @@ public class SenariotController extends Application {
 					stage.show();
 				} else {
 					Alert alert = new Alert(AlertType.WARNING);
-					//alert.initOwner(mainApp.getPrimaryStage());
+					// alert.initOwner(mainApp.getPrimaryStage());
 					alert.setTitle("No Selection");
 					alert.setHeaderText("No Senario Selected");
 					alert.setContentText("Please select a Senario in the table.");
@@ -131,7 +135,7 @@ public class SenariotController extends Application {
 				}
 			}
 		});
-		//button.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
+		// button.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
 		button.setMaxWidth(10);
 		Scene scene = new Scene(new Group());
 		stage.setTitle("Senariot view");

@@ -14,6 +14,7 @@ public class Senario {
 	private String uuid;
 	private String content;
 	private String name;
+	private String type;
 
 	public Senario() {
 	}
@@ -89,5 +90,13 @@ public class Senario {
 	public void setNameFX(StringProperty nameFX) {
 		this.nameFX = nameFX;
 	}
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 }
