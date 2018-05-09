@@ -231,7 +231,7 @@ public class Utilities {
 
 	public static String updateTestDetail(String ipAdress, Boolean testResult, String database) {
 		if (database.equalsIgnoreCase("REFERENCE"))
-			uiTestDetailsRef.setResult(testResult);
+			uiTestDetailsRef.setResult( 	);
 		else
 			uiTestDetailsTest.setResult(testResult);
 
