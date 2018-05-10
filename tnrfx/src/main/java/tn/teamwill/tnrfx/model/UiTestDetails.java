@@ -1,14 +1,11 @@
 package tn.teamwill.tnrfx.model;
 
-import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 
-public class UiTestDetails implements Serializable {
+public class UiTestDetails {
 	private Long id;
 	private String uuid;
 	private Date startDate;
@@ -23,9 +20,33 @@ public class UiTestDetails implements Serializable {
 	private StringProperty typeOf;
 	private BooleanProperty resultOf;
 
-	private static final long serialVersionUID = 1L;
+	public UiTestDetails(UiTestDetailsEntity uiTestDetailsEntity) {
+		super();
+		this.id = uiTestDetailsEntity.getId();
+		this.uuid = uiTestDetailsEntity.getUuid();
+		this.startDate = uiTestDetailsEntity.getStartDate();
+		this.endDate = uiTestDetailsEntity.getEndDate();
+		this.result = uiTestDetailsEntity.getResult();
+		this.type = uiTestDetailsEntity.getType();
+		this.uiTest = uiTestDetailsEntity.getUiTest();
+		this.database = uiTestDetailsEntity.getDatabase();
+	}
+
+	public UiTestDetails(Long id, String uuid, Date startDate, Date endDate, Boolean result, String type, UITest uiTest,
+			String database) {
+		super();
+		this.id = id;
+		this.uuid = uuid;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.result = result;
+		this.type = type;
+		this.uiTest = uiTest;
+		this.database = database;
+	}
 
 	public UiTestDetails() {
+		super();
 	}
 
 	public UiTestDetails(Boolean result, String type) {
@@ -97,8 +118,6 @@ public class UiTestDetails implements Serializable {
 	public void setDatabase(String database) {
 		this.database = database;
 	}
-
-
 
 	public StringProperty getStartDateOf() {
 		return startDateOf;

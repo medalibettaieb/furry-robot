@@ -30,9 +30,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 import tn.teamwill.tnrfx.model.Senario;
 import tn.teamwill.tnrfx.model.UITest;
 import tn.teamwill.tnrfx.model.UiTestDetails;
+import tn.teamwill.tnrfx.model.UiTestDetailsEntity;
 
 public class Utilities {
-	static UiTestDetails uiTestDetailsRef, uiTestDetailsTest;
+	static UiTestDetailsEntity uiTestDetailsRef, uiTestDetailsTest;
 	private static int i;
 
 	public static void createClassTest(Senario senario) throws IOException {
@@ -156,8 +157,8 @@ public class Utilities {
 		return senario2s;
 	}
 
-	public static List<UiTestDetails> fromJSONtoUiTestDetails(String ipAdress, String uuidUiTest) {
-		List<UiTestDetails> uiTestDetails = null;
+	public static List<UiTestDetailsEntity> fromJSONtoUiTestDetails(String ipAdress, String uuidUiTest) {
+		List<UiTestDetailsEntity> uiTestDetails = null;
 		try {
 			URL url = new URL("http://" + ipAdress + ":8080/tnr/webservice/uitestdetails/" + uuidUiTest);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -171,7 +172,7 @@ public class Utilities {
 			while ((output = br.readLine()) != null) {
 				output.replace("[", "");
 				ObjectMapper mapper = new ObjectMapper();
-				uiTestDetails = mapper.readValue(output, new TypeReference<List<UiTestDetails>>() {
+				uiTestDetails = mapper.readValue(output, new TypeReference<List<UiTestDetailsEntity>>() {
 				});
 			}
 			conn.disconnect();
@@ -186,7 +187,7 @@ public class Utilities {
 	public static String addTestDetail(String ipAdress, Senario senario, String database) {
 		String result = "fail";
 		try {
-			UiTestDetails uiTestDetails = new UiTestDetails();
+			UiTestDetailsEntity uiTestDetails = new UiTestDetailsEntity();
 			uiTestDetails.setType("LOCAL");
 			uiTestDetails.setDatabase(database);
 			UITest uiTest = new UITest();
@@ -214,9 +215,9 @@ public class Utilities {
 			result = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
 			// JSONObject jsonObject = new JSONObject(result);
 			if (database.equalsIgnoreCase("REFERENCE"))
-				Utilities.uiTestDetailsRef = mapper.readValue(result, UiTestDetails.class);
+				Utilities.uiTestDetailsRef = mapper.readValue(result, UiTestDetailsEntity.class);
 			else
-				Utilities.uiTestDetailsTest = mapper.readValue(result, UiTestDetails.class);
+				Utilities.uiTestDetailsTest = mapper.readValue(result, UiTestDetailsEntity.class);
 
 			in.close();
 			conn.disconnect();

@@ -26,15 +26,16 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tn.teamwill.tnrfx.model.Senario;
 import tn.teamwill.tnrfx.model.UiTestDetails;
+import tn.teamwill.tnrfx.model.UiTestDetailsEntity;
 import tn.teamwill.tnrfx.util.Utilities;
 
 public class SenariotController extends Application {
 	Image imageOk = new Image(getClass().getResourceAsStream("/images/l3.jpeg"));
 
 	private TableView<Senario> tableSenariot = new TableView<Senario>();
-	private TableView<UiTestDetails> tableUiTestDetails = new TableView<UiTestDetails>();
+	private TableView<UiTestDetailsEntity> tableUiTestDetails = new TableView<UiTestDetailsEntity>();
 	private final ObservableList<Senario> dataSenariot = FXCollections.observableArrayList();
-	private final ObservableList<UiTestDetails> dataUiTestDetails = FXCollections.observableArrayList();
+	private final ObservableList<UiTestDetailsEntity> dataUiTestDetails = FXCollections.observableArrayList();
 	Senario senario = tableSenariot.getSelectionModel().getSelectedItem();
 
 	public static void main(String[] args) {
@@ -71,10 +72,10 @@ public class SenariotController extends Application {
 
 	public void updateUiTestDetailsData() throws FileNotFoundException, IOException {
 		if (senario != null) {
-			List<UiTestDetails> uiTestDetails = Utilities.fromJSONtoUiTestDetails(Utilities.findIp(),
+			List<UiTestDetailsEntity> uiTestDetails = Utilities.fromJSONtoUiTestDetails(Utilities.findIp(),
 					senario.getUuid());
 			System.out.println(uiTestDetails.size());
-			for (UiTestDetails uu : uiTestDetails) {
+			for (UiTestDetailsEntity uu : uiTestDetails) {
 				dataUiTestDetails.add(uu);
 			}
 		} else {
@@ -138,10 +139,10 @@ public class SenariotController extends Application {
 		// button.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
 		button.setMaxWidth(10);
 		Scene scene = new Scene(new Group());
-		stage.setTitle("Senariot view");
+		stage.setTitle("Senarios view");
 		stage.setWidth(600);
 		stage.setHeight(800);
-		final Label label = new Label("Senarit");
+		final Label label = new Label("Senarii");
 		label.setFont(new Font("Arial", 20));
 		tableSenariot.setEditable(true);
 		final VBox vbox = new VBox();
