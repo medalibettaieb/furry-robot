@@ -1,6 +1,7 @@
 package tn.star.it.senariot1;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -11,13 +12,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import tn.star.it.utilities.ExcelConfig;
-
 public class TestResiliation {
 	private final static Logger LOGGER = Logger.getLogger(TestResiliation.class.getName());
-	private static ExcelConfig excel = new ExcelConfig("./Testdata.xlsx");
 
-	public static void main(String[] args) throws InterruptedException, IOException {
+	public void resilierContrat(String numPolice) throws FileNotFoundException, IOException, InterruptedException {
+
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		String appConfigPath = rootPath + "data.properties";
 		Properties appProps = new Properties();
@@ -49,11 +48,11 @@ public class TestResiliation {
 				.click();
 		driver.findElement(By.id("PcpolizzaCnumpolizza")).click();
 		driver.findElement(By.id("PcpolizzaCnumpolizza")).clear();
-		driver.findElement(By.id("PcpolizzaCnumpolizza")).sendKeys("CI0555N00066820*");
+		driver.findElement(By.id("PcpolizzaCnumpolizza")).sendKeys(numPolice);
 		driver.findElement(By.id("BTNtrouver0")).click();
-		
+
 		Thread.sleep(3000);
-		
+
 		driver.findElement(
 				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Statut'])[1]/following::img[1]"))
 				.click();
