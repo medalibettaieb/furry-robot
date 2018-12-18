@@ -20,7 +20,7 @@ public class ExcelConfig {
 	}
 
 	public String readData(int row, int column) {
-		sheet = wb.getSheet("data");
+		sheet = wb.getSheet("Données Tiers");
 		String data = sheet.getRow(row).getCell(column).getStringCellValue();
 		return data;
 	}

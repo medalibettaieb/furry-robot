@@ -16,7 +16,7 @@ import tn.star.it.utilities.ExcelConfig;
 
 public class TestAddTier {
 	private final static Logger LOGGER = Logger.getLogger(TestAddTier.class.getName());
-	private static ExcelConfig excel = new ExcelConfig("./Testdata.xlsx");
+	private static ExcelConfig excel = new ExcelConfig("./CahierDeRecettePilote.xlsx");
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
@@ -24,7 +24,7 @@ public class TestAddTier {
 		Properties appProps = new Properties();
 		appProps.load(new FileInputStream(appConfigPath));
 		LOGGER.info("step1");
-		LOGGER.info(excel.readData(1, 1));
+		LOGGER.info(excel.readData(1, 2));
 		Thread.sleep(2000);
 		System.setProperty("webdriver.chrome.driver", "D:\\drivers\\chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();

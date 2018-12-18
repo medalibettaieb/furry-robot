@@ -6,9 +6,9 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -24,7 +24,6 @@ public class TestCloture {
 		Properties appProps = new Properties();
 		appProps.load(new FileInputStream(appConfigPath));
 		LOGGER.info("step1");
-		LOGGER.info(excel.readData(1, 1));
 		Thread.sleep(2000);
 		System.setProperty("webdriver.chrome.driver", "D:\\drivers\\chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
@@ -32,136 +31,60 @@ public class TestCloture {
 		WebDriver driver = new ChromeDriver(options);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-		driver.get(appProps.getProperty("url"));
+		driver.get(
+				"http://192.168.210.112:8680/star/ServletLogin?RGICommand=logout&RGIResponseOk=/star/res2/login/Start.html");
+		driver.findElement(By.id("RGI_username")).click();
 		driver.findElement(By.id("RGI_username")).clear();
-		driver.findElement(By.id("RGI_username")).sendKeys(appProps.getProperty("username"));
+		driver.findElement(By.id("RGI_username")).sendKeys("ST1012");
+		driver.findElement(By.id("RGI_password")).click();
 		driver.findElement(By.id("RGI_password")).clear();
-		driver.findElement(By.id("RGI_password")).sendKeys(appProps.getProperty("password"));
-//		driver.findElement(
-//				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='close'])[1]/following::button[1]"))
-//				.click();
+		driver.findElement(By.id("RGI_password")).sendKeys("star123");
 		driver.findElement(By.id("BTNsuivant0")).click();
 		driver.findElement(By.xpath(
-				"(.//*[normalize-space(text()) and normalize-space(.)='Gestion des agences'])[1]/following::div[1]"))
+				"(.//*[normalize-space(text()) and normalize-space(.)='Centre de liquidation:'])[1]/following::span[1]"))
 				.click();
-		driver.findElement(By.id("PadatisingoliCcognomeOrPadatisingoliCdenominazione")).clear();
-		driver.findElement(By.id("PadatisingoliCcognomeOrPadatisingoliCdenominazione")).sendKeys("oooo");
-		driver.findElement(By.id("BTNtrouver0")).click();
-		driver.findElement(By.id("BTNnouveau0")).click();
-		driver.findElement(By.id("inputSel_AnagCurrentPv")).click();
-		driver.findElement(By.id("inputSel_AnagCurrentPv")).clear();
-		driver.findElement(By.id("inputSel_AnagCurrentPv")).sendKeys("ABI");
-//		driver.findElement(By.id("ui-active-menuitem")).click();
-//		driver.findElement(By
-//				.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Type Personne:'])[1]/following::span[1]"))
-//				.click();
-
-		// driver.findElement(By.id("inputSel_PasoggettoEgiuridicofisico")).click();
-		driver.findElement(By.id("inputSel_PasoggettoEgiuridicofisico")).clear();
-		driver.findElement(By.id("inputSel_PasoggettoEgiuridicofisico")).sendKeys("Personne physique");
-
-		driver.findElement(By.linkText("Personne physique")).click();
-		driver.findElement(
-				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Profession:'])[1]/following::span[1]"))
-				.click();
-		driver.findElement(By.linkText("Autres")).click();
+		driver.findElement(By.linkText("AUTO CORPOREL N")).click();
 		driver.findElement(By.id("BTNsuivant0")).click();
-		driver.findElement(By.id("PadatisingoliCcognome")).click();
-		driver.findElement(By.id("PadatisingoliCcognome")).clear();
-		driver.findElement(By.id("PadatisingoliCcognome")).sendKeys("mohamed");
-		driver.findElement(By.id("PadatisingoliCoriginalsurname")).clear();
-		driver.findElement(By.id("PadatisingoliCoriginalsurname")).sendKeys("محمد بن عمار");
-		driver.findElement(By.id("PadatisingoliCnome")).clear();
-		driver.findElement(By.id("PadatisingoliCnome")).sendKeys("ben am");
-		// driver.findElement(By.id("header-logo")).click();
-//		driver.findElement(By.id("BTNdiv_operatore")).click();
-//		driver.findElement(By.id("PadatisingoliCnome")).click();
-//		driver.findElement(
-//				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Prénom:'])[1]/following::td[2]"))
-//				.click();
-		driver.findElement(By.id("PadatisingoliCnome")).click();
-		driver.findElement(By.id("PadatisingoliCnome")).clear();
-		driver.findElement(By.id("PadatisingoliCnome")).sendKeys("Mohamed");
-		driver.findElement(By.id("PadatisingoliCoriginalname")).clear();
-		driver.findElement(By.id("PadatisingoliCoriginalname")).sendKeys("محمد بن عمار");
-		driver.findElement(
-				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Sexe:'])[1]/following::span[1]"))
+		driver.findElement(By.xpath(
+				"(.//*[normalize-space(text()) and normalize-space(.)='Gestion contrats'])[1]/following::div[1]"))
 				.click();
-		driver.findElement(By.linkText("Homme")).click();
-		/// ok
+		driver.findElement(By.xpath(
+				"(.//*[normalize-space(text()) and normalize-space(.)='Déclarer sinistre'])[1]/following::div[1]"))
+				.click();
+		driver.findElement(By.id("PssinsinistroCnumerosinistro")).click();
+		driver.findElement(By.id("PssinsinistroCnumerosinistro")).clear();
+		driver.findElement(By.id("PssinsinistroCnumerosinistro")).sendKeys("000019960503465");
+		driver.findElement(By.id("BTNtrova0")).click();
+		driver.findElement(By.xpath(
+				"(.//*[normalize-space(text()) and normalize-space(.)='Gestionnaire de sinistre'])[1]/following::img[1]"))
+				.click();
+		driver.findElement(By.id("BTNseleziona0")).click();
+		driver.findElement(By.xpath(
+				"(.//*[normalize-space(text()) and normalize-space(.)='Gestion paiement'])[1]/following::div[1]"))
+				.click();
 
-		driver.findElement(By.id("PasoggettoDnascita")).click();
-		Thread.sleep(1000);
-		driver.findElement(By.id("PasoggettoDnascita")).clear();
-		Thread.sleep(1000);
-		driver.findElement(By.id("PasoggettoDnascita")).sendKeys("01/01/1980");
-//		driver.findElement(
-//				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Relations'])[1]/following::table[1]"))
-//				.click();
-//		driver.findElement(By.id("PasoggettoDnascita")).click();
-		///// wait
-		Thread.sleep(1000);
+		WebElement element = driver.findElement(By.xpath("//*[@id=\"divFormContainer\"]/table/tbody/tr[2]/td[3]/b"));
+		System.out.println(element.getText());
 
-//		driver.findElement(
-//				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Après >'])[1]/following::select[2]"))
-//				.click();
-//
-//		driver.findElement(By.linkText("6")).click();
-//		driver.findElement(By.id("PasubjectkeyCkey3")).click();
-//		driver.findElement(By.id("PasubjectkeyCkey3")).clear();
-
-		driver.findElement(By.id("PasubjectkeyCkey3")).click();
-
-		driver.findElement(By.id("PasubjectkeyCkey3")).sendKeys(appProps.getProperty("cin"));
-//		driver.findElement(
-//				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='État civil:'])[1]/following::span[1]"))
-//				.click();
-		driver.findElement(By.id("BTNRésidence0")).click();
-		Thread.sleep(4000);
-//		driver.findElement(By
-//				.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Type de voie:'])[1]/following::span[1]"))
-//				.click();
-		driver.findElement(By.id("inputSel_praddressctoponym")).clear();
-		driver.findElement(By.id("inputSel_praddressctoponym")).sendKeys("RUE");
-		// driver.findElement(By.id("ui-active-menuitem")).click();
-		Thread.sleep(3000);
-//		driver.findElement(By.id("praddresscaddress")).click();
-//		driver.findElement(By.id("praddresscaddress")).clear();
-		driver.findElement(By.id("praddresscaddress")).sendKeys("mlkjkhj");
-
-		driver.findElement(By.id("inputSel_praddresscadminlevel3")).click();
-		driver.findElement(By.id("inputSel_praddresscadminlevel3")).clear();
-		driver.findElement(By.id("inputSel_praddresscadminlevel3")).sendKeys("ABBES");
-
-		Thread.sleep(2000);
-//		driver.findElement(
-//				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Localité:'])[1]/following::span[1]"))
-//				.click();
-		System.out.println("tnr test step2 : verfing exixtance of tier");
-		try {
-			driver.findElement(By.id("BTNsuivant0")).click();
-			Thread.sleep(2000);
-
-			driver.findElement(By.linkText("Contacts")).click();
-			driver.findElement(By.id("PatelefonoCnumeroFISSO")).click();
-			driver.findElement(By.id("PatelefonoCnumeroFISSO")).clear();
-			driver.findElement(By.id("PatelefonoCnumeroFISSO")).sendKeys("214654545");
-
-			driver.findElement(By.id("BTNconfirmer0")).click();
-			Thread.sleep(2000);
-
-			Alert alert = driver.switchTo().alert();
-			alert.accept();
-
-			Thread.sleep(4000);
-			driver.findElement(
-					By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='close'])[3]/following::button[1]"))
-					.click();
-			LOGGER.info("tier succefully added ....");
+		if (element.getText().equalsIgnoreCase("Fermé sans suite")) {
+			LOGGER.info("sinistre cloturé");
 			driver.close();
 
-		} catch (Exception e) {
-			LOGGER.info("tier already  exixtant ....");
+		} else {
+			driver.findElement(By.xpath(
+					"(.//*[normalize-space(text()) and normalize-space(.)='Clôturer / Rouvrir'])[1]/following::div[1]"))
+					.click();
+			driver.findElement(By.id("idCausale_33048356")).click();
+			driver.findElement(By.xpath(
+					"(.//*[normalize-space(text()) and normalize-space(.)='Motif de la mise à jour'])[1]/following::span[1]"))
+					.click();
+			driver.findElement(By.xpath(
+					"(.//*[normalize-space(text()) and normalize-space(.)='Motif de la mise à jour'])[1]/following::span[1]"))
+					.click();
+			driver.findElement(By.id("noteMotivazioni")).click();
+			driver.findElement(By.id("noteMotivazioni")).clear();
+			driver.findElement(By.id("noteMotivazioni")).sendKeys("test");
+			driver.findElement(By.id("BTNchiudi0")).click();
 			driver.close();
 		}
 
