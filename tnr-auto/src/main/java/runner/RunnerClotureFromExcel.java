@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import tn.star.it.senariot1.TestCloture;
 
 public class RunnerClotureFromExcel {
-	public static final String SAMPLE_XLSX_FILE_PATH = "CahierDeRecettePilote.xlsx";
+	public static final String SAMPLE_XLSX_FILE_PATH = "DocTest1.xlsx";
 
 	public static void main(String[] args) throws EncryptedDocumentException, InvalidFormatException, IOException {
 		TestCloture cloture = new TestCloture();
@@ -32,7 +32,7 @@ public class RunnerClotureFromExcel {
 		 */
 
 		// Getting the Sheet at index zero
-		Sheet sheet = workbook.getSheetAt(1);
+		Sheet sheet = workbook.getSheetAt(3);
 
 		// Create a DataFormatter to format and get each cell's value as String
 		DataFormatter dataFormatter = new DataFormatter();
@@ -44,7 +44,6 @@ public class RunnerClotureFromExcel {
 		for (Row row : sheet) {
 			if (row.getRowNum() != 0) {
 				for (Cell cell : row) {
-					System.out.println(cell.getStringCellValue());
 					String cellValue = dataFormatter.formatCellValue(cell);
 					if (cell.getRowIndex() != 0) {
 						if (numSinistre == null) {
@@ -54,12 +53,10 @@ public class RunnerClotureFromExcel {
 						}
 					}
 				}
-				//System.out.println(numSinistre + "----" + cdl);
 				cloture.clotureSinistre(numSinistre, cdl);
 				numSinistre = null;
 				cdl = null;
 			} else {
-				System.out.println("first line");
 			}
 		}
 

@@ -13,11 +13,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import tn.star.it.utilities.ExcelConfig;
-
 public class TestCloture {
 	private final static Logger LOGGER = Logger.getLogger(TestCloture.class.getName());
-	private static ExcelConfig excel = new ExcelConfig("./Testdata.xlsx");
 
 	public void clotureSinistre(String numSinistre, String cdl) {
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
@@ -58,7 +55,7 @@ public class TestCloture {
 				"(.//*[normalize-space(text()) and normalize-space(.)='Gestion contrats'])[1]/following::div[1]"))
 				.click();
 		driver.findElement(By.xpath(
-				"(.//*[normalize-space(text()) and normalize-space(.)='DÃ©clarer sinistre'])[1]/following::div[1]"))
+				"(.//*[normalize-space(text()) and normalize-space(.)='Déclarer sinistre'])[1]/following::div[1]"))
 				.click();
 		driver.findElement(By.id("PssinsinistroCnumerosinistro")).click();
 		driver.findElement(By.id("PssinsinistroCnumerosinistro")).clear();
@@ -75,30 +72,44 @@ public class TestCloture {
 		WebElement element = driver.findElement(By.xpath("//*[@id=\"divFormContainer\"]/table/tbody/tr[2]/td[3]/b"));
 		System.out.println(element.getText());
 
-		if (element.getText().equalsIgnoreCase("FermÃ© sans suite") || element.getText().equalsIgnoreCase("FermÃ©")) {
-			LOGGER.info("sinistre cloturÃ©");
+		if (element.getText().equalsIgnoreCase("Fermé sans suite") || element.getText().equalsIgnoreCase("Fermé")) {
+			LOGGER.info("sinistre cloturé");
 			driver.close();
 
 		} else {
 			driver.findElement(By.xpath(
-					"(.//*[normalize-space(text()) and normalize-space(.)='ClÃ´turer / Rouvrir'])[1]/following::div[1]"))
+					"(.//*[normalize-space(text()) and normalize-space(.)='Clôturer / Rouvrir'])[1]/following::div[1]"))
 					.click();
 
-			WebElement table = driver.findElement(By.className("tabellaRiepilogo"));
-			List<WebElement> elements = table.findElements(By.className("cellaTitolo"));
+			// chella
+			WebElement tableParent = driver.findElement(By.className("centerposition"));
+			List<WebElement> tablesChild = tableParent.findElements(By.className("tabellaRiepilogo"));
 
-			System.out.println(elements);
+			for (WebElement tc : tablesChild) {
+				List<WebElement> cheldrens = tc.findElements(By.className("cellaTitolo"));
 
+				for (WebElement cs : tablesChild) {
+					List<WebElement> targets = cs.findElements(By.tagName("input"));
 
-			List<WebElement> elementsk = elements.get(0).findElements(By.tagName("input"));
-			elementsk.get(0).click();
-			elementsk.get(0).click();
+					targets.get(0).click();
+					targets.get(0).click();
+				}
+			}
+
+//			WebElement table = driver.findElement(By.className("tabellaRiepilogo"));
+//			List<WebElement> elements = table.findElements(By.className("cellaTitolo"));
+//
+//			System.out.println(elements);
+//
+//			List<WebElement> elementsk = elements.get(0).findElements(By.tagName("input"));
+//			elementsk.get(0).click();
+//			elementsk.get(0).click();
 
 			driver.findElement(By.xpath(
-					"(.//*[normalize-space(text()) and normalize-space(.)='Motif de la mise Ã  jour'])[1]/following::span[1]"))
+					"(.//*[normalize-space(text()) and normalize-space(.)='Motif de la mise à jour'])[1]/following::span[1]"))
 					.click();
 			driver.findElement(By.xpath(
-					"(.//*[normalize-space(text()) and normalize-space(.)='Motif de la mise Ã  jour'])[1]/following::span[1]"))
+					"(.//*[normalize-space(text()) and normalize-space(.)='Motif de la mise à jour'])[1]/following::span[1]"))
 					.click();
 			driver.findElement(By.id("noteMotivazioni")).click();
 			driver.findElement(By.id("noteMotivazioni")).clear();

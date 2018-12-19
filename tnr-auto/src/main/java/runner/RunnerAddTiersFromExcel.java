@@ -16,11 +16,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import tn.star.it.domain.Tier;
 import tn.star.it.senariot1.TestAddTier;
+import tn.star.it.senariot1.TestAddTierV2;
 
 public class RunnerAddTiersFromExcel {
 	public static final String SAMPLE_XLSX_FILE_PATH = "DocTest1.xlsx";
 	private static List<Tier> tiers;
 	private static  TestAddTier testAddTier=new TestAddTier();
+	private static  TestAddTierV2 testAddTierV2=new TestAddTierV2();
 
 	public static void main(String[] args) throws EncryptedDocumentException, InvalidFormatException, IOException {
 		// Creating a Workbook from an Excel file (.xls or .xlsx)
@@ -133,7 +135,7 @@ public class RunnerAddTiersFromExcel {
 // adding tiers
 		for (Tier t : tiers) {
 			try {
-				testAddTier.ajouterTier(t);
+				testAddTierV2.ajouterTier(t);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

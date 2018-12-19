@@ -2,6 +2,8 @@ package runner;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -16,7 +18,7 @@ import tn.star.it.senariot1.TestCloture;
 import tn.star.it.senariot1.TestResiliation;
 
 public class RunnerResiliationFromExcel {
-	public static final String SAMPLE_XLSX_FILE_PATH = "CahierDeRecettePilote.xlsx";
+	public static final String SAMPLE_XLSX_FILE_PATH = "DocTest1.xlsx";
 
 	public static void main(String[] args) throws EncryptedDocumentException, InvalidFormatException, IOException {
 
@@ -36,27 +38,34 @@ public class RunnerResiliationFromExcel {
 		 */
 
 		// Getting the Sheet at index zero
-		Sheet sheet = workbook.getSheetAt(1);
+		Sheet sheet = workbook.getSheetAt(2);
 
 		// Create a DataFormatter to format and get each cell's value as String
 		DataFormatter dataFormatter = new DataFormatter();
 
 		// 2. Or you can use a for-each loop to iterate over the rows and columns
-
+		List<String> list = new ArrayList<String>();
 		for (Row row : sheet) {
 			if (row.getRowNum() != 0) {
 				for (Cell cell : row) {
-					String cellValue = dataFormatter.formatCellValue(cell);
+					if (cell.getColumnIndex() == 0) {
+						String cellValue = dataFormatter.formatCellValue(cell);
+						list.add(cellValue);
+					}
+
 				}
 			}
 		}
 
 		// Closing the workbook
 		workbook.close();
-
+		System.out.println(list.size());
 		// resilier police
 		try {
-			testResiliation.resilierContrat("");
+			for (String s : list) {
+				testResiliation.resilierContrat(s);
+			}
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

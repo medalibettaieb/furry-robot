@@ -50,7 +50,7 @@ public class TestAddTier {
 		driver.findElement(By.id("inputSel_AnagCurrentPv")).clear();
 		
 		driver.findElement(By.id("inputSel_AnagCurrentPv")).sendKeys(tier.getNoeud());
-		driver.findElement(By.id("AnagCurrentPv")).click();
+		//driver.findElement(By.id("AnagCurrentPv")).click();
 
 		
 		driver.findElement(By.id("inputSel_PasoggettoEgiuridicofisico")).clear();
@@ -86,7 +86,7 @@ public class TestAddTier {
 		Thread.sleep(1000);
 		driver.findElement(By.id("PasubjectkeyCkey3")).click();
 		driver.findElement(By.id("PasubjectkeyCkey3")).sendKeys(tier.getNumDocument());
-		driver.findElement(By.id("BTNRÃ©sidence0")).click();
+		driver.findElement(By.id("BTNRésidence0")).click();
 		Thread.sleep(4000);
 		driver.findElement(By.id("inputSel_praddressctoponym")).clear();
 		driver.findElement(By.id("inputSel_praddressctoponym")).sendKeys(tier.getTypeVoie());

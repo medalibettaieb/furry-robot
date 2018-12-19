@@ -56,16 +56,17 @@ public class TestResiliation {
 		driver.findElement(
 				By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Statut'])[1]/following::img[1]"))
 				.click();
-		driver.findElement(By.id("BTNsÃ©lectionner0")).click();
+		driver.findElement(By.id("BTNsélectionner0")).click();
 		driver.findElement(By.xpath("//*[@id=\"menuvoices\"]/ul/li[5]/a")).click();
 		driver.findElement(By.id("inputSel_CBANN")).click();
-		driver.findElement(By.linkText("RÃ©siliation Ã©chÃ©ance compagnie")).click();
+		driver.findElement(By.linkText("Résiliation échéance compagnie")).click();
 		driver.findElement(By.id("BTNsuivant0")).click();
 		driver.findElement(By.id("PcmovimentoCnote")).click();
 		driver.findElement(By.id("PcmovimentoCnote")).clear();
 		driver.findElement(By.id("PcmovimentoCnote")).sendKeys("test bettaieb");
 		driver.findElement(By.id("BTNsuivant1")).click();
 		driver.findElement(By.id("BTNfin1")).click();
+		driver.close();
 
 	}
 
