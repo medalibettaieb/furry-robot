@@ -13,7 +13,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class TestSome {
-	public static final String SAMPLE_XLSX_FILE_PATH = "CahierDeRecettePilote.xlsx";
+	public static final String SAMPLE_XLSX_FILE_PATH = "DocTest1.xlsx";
 
 	public static void main(String[] args) throws IOException, EncryptedDocumentException, InvalidFormatException {
 		// Creating a Workbook from an Excel file (.xls or .xlsx)
@@ -28,7 +28,7 @@ public class TestSome {
 		 */
 
 		// Getting the Sheet at index zero
-		Sheet sheet = workbook.getSheetAt(1);
+		Sheet sheet = workbook.getSheetAt(0);
 
 		// Create a DataFormatter to format and get each cell's value as String
 		DataFormatter dataFormatter = new DataFormatter();
