@@ -31,7 +31,7 @@ public class TestCloture {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.setProperty("webdriver.chrome.driver", "D:\\drivers\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "chromedriver");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--start-maximized");
 		WebDriver driver = new ChromeDriver(options);
@@ -49,13 +49,15 @@ public class TestCloture {
 		driver.findElement(By.xpath(
 				"(.//*[normalize-space(text()) and normalize-space(.)='Centre de liquidation:'])[1]/following::span[1]"))
 				.click();
-		driver.findElement(By.linkText(cdl)).click();
+
+		System.out.println(cdl);
+		driver.findElement(By.id("inputSel_RGI_listaCdl")).sendKeys(cdl);
 		driver.findElement(By.id("BTNsuivant0")).click();
 		driver.findElement(By.xpath(
 				"(.//*[normalize-space(text()) and normalize-space(.)='Gestion contrats'])[1]/following::div[1]"))
 				.click();
 		driver.findElement(By.xpath(
-				"(.//*[normalize-space(text()) and normalize-space(.)='Déclarer sinistre'])[1]/following::div[1]"))
+				"(.//*[normalize-space(text()) and normalize-space(.)='DÃ©clarer sinistre'])[1]/following::div[1]"))
 				.click();
 		driver.findElement(By.id("PssinsinistroCnumerosinistro")).click();
 		driver.findElement(By.id("PssinsinistroCnumerosinistro")).clear();
@@ -72,13 +74,13 @@ public class TestCloture {
 		WebElement element = driver.findElement(By.xpath("//*[@id=\"divFormContainer\"]/table/tbody/tr[2]/td[3]/b"));
 		System.out.println(element.getText());
 
-		if (element.getText().equalsIgnoreCase("Fermé sans suite") || element.getText().equalsIgnoreCase("Fermé")) {
-			LOGGER.info("sinistre cloturé");
+		if (element.getText().equalsIgnoreCase("FermÃ© sans suite") || element.getText().equalsIgnoreCase("FermÃ©")) {
+			LOGGER.info("sinistre cloturÃ©");
 			driver.close();
 
 		} else {
 			driver.findElement(By.xpath(
-					"(.//*[normalize-space(text()) and normalize-space(.)='Clôturer / Rouvrir'])[1]/following::div[1]"))
+					"(.//*[normalize-space(text()) and normalize-space(.)='ClÃ´turer / Rouvrir'])[1]/following::div[1]"))
 					.click();
 
 			// chella
@@ -105,12 +107,10 @@ public class TestCloture {
 //			elementsk.get(0).click();
 //			elementsk.get(0).click();
 
-			driver.findElement(By.xpath(
-					"(.//*[normalize-space(text()) and normalize-space(.)='Motif de la mise à jour'])[1]/following::span[1]"))
-					.click();
-			driver.findElement(By.xpath(
-					"(.//*[normalize-space(text()) and normalize-space(.)='Motif de la mise à jour'])[1]/following::span[1]"))
-					.click();
+			WebElement element2 = driver.findElement(By.id("inputSel_PssinclaimcausIdclaimcaus"));
+			element2.click();
+			element2.clear();
+			element2.sendKeys("Avis technique de lâ€™expert dÃ©favorable");
 			driver.findElement(By.id("noteMotivazioni")).click();
 			driver.findElement(By.id("noteMotivazioni")).clear();
 			driver.findElement(By.id("noteMotivazioni")).sendKeys("test");

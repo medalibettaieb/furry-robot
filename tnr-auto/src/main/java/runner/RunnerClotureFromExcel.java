@@ -45,12 +45,12 @@ public class RunnerClotureFromExcel {
 			if (row.getRowNum() != 0) {
 				for (Cell cell : row) {
 					String cellValue = dataFormatter.formatCellValue(cell);
-					if (cell.getRowIndex() != 0) {
-						if (numSinistre == null) {
-							numSinistre = cellValue;
-						} else {
-							cdl = cellValue;
-						}
+					
+					if (cell.getColumnIndex() == 0) {
+						numSinistre=cellValue;
+					}
+					if (cell.getColumnIndex() == 1) {
+						cdl=cellValue;
 					}
 				}
 				cloture.clotureSinistre(numSinistre, cdl);

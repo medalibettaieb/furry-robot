@@ -26,7 +26,7 @@ public class TestStarCases {
 		LOGGER.info("step1");
 		LOGGER.info(excel.readData(1, 1));
 		Thread.sleep(2000);
-		System.setProperty("webdriver.chrome.driver", "D:\\drivers\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--start-maximized");
 		WebDriver driver = new ChromeDriver(options);
