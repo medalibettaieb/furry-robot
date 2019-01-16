@@ -42,15 +42,15 @@ public class RunnerClotureFromExcel {
 		String numSinistre = null;
 		String cdl = null;
 		for (Row row : sheet) {
-			if (row.getRowNum() != 0) {
+			if (row.getRowNum() != 0 && row.getCell(0) != null) {
 				for (Cell cell : row) {
 					String cellValue = dataFormatter.formatCellValue(cell);
-					
+
 					if (cell.getColumnIndex() == 0) {
-						numSinistre=cellValue;
+						numSinistre = cellValue;
 					}
 					if (cell.getColumnIndex() == 1) {
-						cdl=cellValue;
+						cdl = cellValue;
 					}
 				}
 				cloture.clotureSinistre(numSinistre, cdl);

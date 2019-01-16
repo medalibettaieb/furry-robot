@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import org.openqa.selenium.Alert;
@@ -19,9 +20,11 @@ import tn.star.it.utilities.ExcelConfig;
 public class TestAddTierV2 {
 	private final static Logger LOGGER = Logger.getLogger(TestAddTierV2.class.getName());
 	private static ExcelConfig excel = new ExcelConfig("./DocTest1.xlsx");
+	private static FileHandler fh;
 
 	public void ajouterTier(Tier tier) throws InterruptedException, IOException {
-
+		fh = new FileHandler("/home/bettaieb/Desktop/MyLogFile.log");
+		LOGGER.addHandler(fh);
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		String appConfigPath = rootPath + "data.properties";
 		Properties appProps = new Properties();

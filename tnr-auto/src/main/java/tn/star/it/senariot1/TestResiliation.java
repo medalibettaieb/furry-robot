@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
@@ -16,12 +17,15 @@ public class TestResiliation {
 	private final static Logger LOGGER = Logger.getLogger(TestResiliation.class.getName());
 
 	public void resilierContrat(String numPolice) throws FileNotFoundException, IOException, InterruptedException {
-
+		 Logger logger = Logger.getLogger("MyLog");  
+		    FileHandler fh;  
+		    fh = new FileHandler("/home/bettaieb/Desktop/MyLogFile.log");  
+	        logger.addHandler(fh);
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		String appConfigPath = rootPath + "data.properties";
 		Properties appProps = new Properties();
 		appProps.load(new FileInputStream(appConfigPath));
-		LOGGER.info("step1");
+		logger.info("step1");
 
 		Thread.sleep(2000);
 		System.setProperty("webdriver.chrome.driver", "chromedriver");

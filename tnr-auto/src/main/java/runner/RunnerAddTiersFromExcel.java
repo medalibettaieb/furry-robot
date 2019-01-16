@@ -47,7 +47,7 @@ public class RunnerAddTiersFromExcel {
 		List<Tier> tiers = new ArrayList<>();
 		for (Row row : sheet) {
 			Tier tier = new Tier();
-			if (row.getRowNum() != 0) {
+			if (row.getRowNum() != 0 && row.getCell(0)!=null) {
 				for (Cell cell : row) {
 					if (cell.getColumnIndex() == 0) {
 						String cellValue = dataFormatter.formatCellValue(cell);
@@ -134,6 +134,7 @@ public class RunnerAddTiersFromExcel {
 			}
 		}
 // adding tiers
+		System.out.println(tiers.size());
 		for (Tier t : tiers) {
 			try {
 				testAddTierV2.ajouterTier(t);

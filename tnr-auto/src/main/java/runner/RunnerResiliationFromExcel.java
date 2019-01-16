@@ -46,7 +46,7 @@ public class RunnerResiliationFromExcel {
 		// 2. Or you can use a for-each loop to iterate over the rows and columns
 		List<String> list = new ArrayList<String>();
 		for (Row row : sheet) {
-			if (row.getRowNum() != 0) {
+			if (row.getRowNum() != 0 && row.getCell(0)!=null) {
 				for (Cell cell : row) {
 					if (cell.getColumnIndex() == 0) {
 						String cellValue = dataFormatter.formatCellValue(cell);

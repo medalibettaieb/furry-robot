@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
@@ -16,7 +17,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class TestCloture {
 	private final static Logger LOGGER = Logger.getLogger(TestCloture.class.getName());
 
-	public void clotureSinistre(String numSinistre, String cdl) {
+	public void clotureSinistre(String numSinistre, String cdl) throws SecurityException, IOException {
+		Logger logger = Logger.getLogger("MyLog");
+		FileHandler fh;
+		fh = new FileHandler("/home/bettaieb/Desktop/MyLogFile.log");
+		logger.addHandler(fh);
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		String appConfigPath = rootPath + "data.properties";
 		Properties appProps = new Properties();
@@ -25,7 +30,7 @@ public class TestCloture {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		LOGGER.info("step1");
+		logger.info("step1");
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -75,7 +80,7 @@ public class TestCloture {
 		System.out.println(element.getText());
 
 		if (element.getText().equalsIgnoreCase("Fermé sans suite") || element.getText().equalsIgnoreCase("Fermé")) {
-			LOGGER.info("sinistre cloturé");
+			logger.info("sinistre cloturé");
 			driver.close();
 
 		} else {
